@@ -5,6 +5,17 @@
   #8d2ab5
   #74119c
 */
+body{
+  background-color: #060ce9;
+  color: #FFFFFF;
+}
+#header{
+  width: 100%;
+}
+#title{
+  width: 100%;
+  font-size: 3em;
+}
 #game{
   display: flex;
   flex-wrap: wrap;
@@ -12,12 +23,9 @@
   align-content: center;
   justify-content: center;
 }
-#title{
-  display: block;
-}
 .btn{
   margin: 5px;
-  padding: 0px 50px 0px 50px;
+  padding: 10px 50px 10px 50px;
   font-size: 1.2em;
   font-weight: 500;
   border-radius: 5px;
@@ -48,8 +56,8 @@
   background-color: #060ce9;
   color: #FFFFFF; 
   font-size: 2em;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 100px;
   cursor: pointer;
   transition: all 500ms;
   overflow: hidden;

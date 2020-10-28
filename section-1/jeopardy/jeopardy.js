@@ -130,7 +130,7 @@ async function fillTable() {
         "data-question": categories[j].clues[i].question,
         "data-answer": categories[j].clues[i].answer,
       });
-      cell.text("?");
+      cell.html(`<i class="fas fa-question"></i>`);
       row.append(cell);
     }
     tbody.append(row);
@@ -146,7 +146,13 @@ async function fillTable() {
  * */
 
 function handleClick(evt) {
-  const cell = $(evt.target);
+  const target = $(evt.target);
+  let cell = null;
+  if (target.prop("tagName") !== "TD") {
+    cell = target.parent("td");
+  } else {
+    cell = target;
+  }
 
   const x = parseInt(cell.attr("data-x"));
   const y = parseInt(cell.attr("data-y"));
@@ -170,7 +176,8 @@ function handleClick(evt) {
 function showLoadingView() {
   $("#jeopardy").css("display", "none");
   $("#loading").css("display", "block");
-  $("restart").prop("disabled", true);
+  $("#restart").prop("disabled", true);
+  $("#restart").text("Loading");
 }
 
 /** Remove the loading spinner and update the button used to fetch data. */
@@ -178,7 +185,8 @@ function showLoadingView() {
 function hideLoadingView() {
   $("#jeopardy").css("display", "block");
   $("#loading").css("display", "none");
-  $("restart").prop("disabled", false);
+  $("#restart").prop("disabled", false);
+  $("#restart").text("Restart");
 }
 
 /** Start game:
@@ -189,32 +197,34 @@ function hideLoadingView() {
  * */
 
 async function setupAndStart() {
-    //show the loading view
-    showLoadingView();
+  //show the loading view
+  showLoadingView();
 
-    //clear the data
-    categories.length = 0;
+  //clear the data
+  categories.length = 0;
 
-    //get random categories
-    const categoryIds = await getCategoryIds();
+  //get random categories
+  const categoryIds = await getCategoryIds();
 
-    //fetch the categories
-    for (let catId of categoryIds) {
-        const category = await getCategory(catId);
-        categories.push(category);
-    }
+  //fetch the categories
+  for (let catId of categoryIds) {
+    const category = await getCategory(catId);
+    categories.push(category);
+  }
 
-    //fill the table
-    await fillTable();
+  //fill the table
+  await fillTable();
 
-    //hide the loading view
-    hideLoadingView();
+  //hide the loading view
+  hideLoadingView();
 }
 
 const initialHTML = `
 <div id="game">
-<h1 id="title">Jeopardy Game</h1>
-<button id="restart" class="btn">Restart the game!</button>
+<div id="header">
+<h1 id="title">Jeopardy!</h1>
+<button id="restart" class="btn">Restart</button>
+</div>
 <table id="jeopardy">
 <thead>
       <tr></tr>
@@ -235,6 +245,5 @@ $("#restart").on("click", setupAndStart);
 
 /** On page load, add event handler for clicking clues */
 $("#jeopardy").on("click", "tbody td", handleClick); //set the question cell click event
-
 
 setupAndStart();
