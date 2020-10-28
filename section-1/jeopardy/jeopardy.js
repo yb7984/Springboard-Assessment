@@ -219,7 +219,13 @@ async function setupAndStart() {
   hideLoadingView();
 }
 
-const initialHTML = `
+
+/**
+ * init basic html to the container
+ * @param {*} container 
+ */
+function init(container) {
+  const initialHTML = `
 <div id="game">
 <div id="header">
 <h1 id="title">Jeopardy!</h1>
@@ -238,12 +244,15 @@ const initialHTML = `
 </div>
 `;
 
-$("body").prepend($(initialHTML));
+  $(container).prepend($(initialHTML));
 
-/** On click of start / restart button, set up game. */
-$("#restart").on("click", setupAndStart);
+  /** On click of start / restart button, set up game. */
+  $("#restart").on("click", setupAndStart);
 
-/** On page load, add event handler for clicking clues */
-$("#jeopardy").on("click", "tbody td", handleClick); //set the question cell click event
+  /** On page load, add event handler for clicking clues */
+  $("#jeopardy").on("click", "tbody td", handleClick); //set the question cell click event
 
+}
+//start the game when page load
+init($("body"));
 setupAndStart();
