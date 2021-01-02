@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    {% if result %}
+        <div class="result">The result is {{symbol}}{{result}}</div>
+        <a href="/">Home</a>
+    {% endif %}
+    {% if not result %}
+        {% for msg in get_flashed_messages() %}
+            <p class="flash-message">{{ msg }}</p>
+        {% endfor %}
+        <div>
+        <form action="/" method="POST">
+            <div>
+            <label>Converting from</label
+            ><input type="text" required name="from" value="{{c_from}}" />
+            </div>
+            <div>
+            <label>Converting to</label
+            ><input type="text" required name="to" value="{{c_to}}" />
+            </div>
+            <div>
+            <label>Amount:</label
+            ><input type="text" required name="amount" value="{{c_amount}}" />
+            </div>
+            <div><button type="submit">Convert</button></div>
+        </form>
+        </div>
+    {% endif %}
+  </body>
+</html>
